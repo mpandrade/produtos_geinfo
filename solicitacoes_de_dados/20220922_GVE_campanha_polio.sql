@@ -4,8 +4,13 @@ with criancas as (
 		uc.nm_usuario as nome,
 		uc.dt_nascimento as dn,
 		uc.nm_mae as nome_mae,
+		euc.nm_logradouro || ' ' || euc.nr_logradouro || ' '|| euc.nm_comp_logradouro as endereco,
 		euc.nm_bairro as bairro,
-		cid.descricao as cidade
+		cid.descricao as cidade,
+		uc.nr_telefone as telefone1,
+		uc.nr_telefone_2 as telefone2,
+		uc.telefone3 as telefone3,
+		uc.telefone4 as telefone4 
 	from 
 		usuario_cadsus uc
 		left join cidade cid on uc.cd_municipio_residencia = cid.cod_cid 
@@ -61,6 +66,11 @@ select
 	c.dn,
 	c.bairro,
 	c.cidade,
+	c.endereco,
+	c.telefone1,
+	c.telefone2,
+	c.telefone3,
+	c.telefone4,
 	v.idade_na_aplicacao,
 	v.dt_aplicacao,
 	v.tipo_vacina,
