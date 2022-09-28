@@ -1,6 +1,6 @@
 with criancas as (
 	select
-		uc.cd_usu_cadsus as cod,
+		distinct(uc.cd_usu_cadsus) as cod,
 		uc.nm_usuario as nome,
 		uc.dt_nascimento as dn,
 		uc.nm_mae as nome_mae,
@@ -19,13 +19,14 @@ with criancas as (
 		and uc.flag_unificado = 0
 		and uc.situacao in (0,1)
 ),
+	-- Obs: função max utilizada para deduplicação (crianças com 2 doses de polio no período avaliado)
 	vacinas as (
 	select 
 		uc.cd_usu_cadsus as cod,
-		extract('year' from age(va.dt_aplicacao::date,uc.dt_nascimento::date))::int as idade_na_aplicacao,
-		va.dt_aplicacao::date as dt_aplicacao,
-		tv.ds_vacina as tipo_vacina,
-		case
+		max(extract('year' from age(va.dt_aplicacao::date,uc.dt_nascimento::date))::int) as idade_na_aplicacao,
+		max(va.dt_aplicacao::date) as dt_aplicacao,
+		max(tv.ds_vacina) as tipo_vacina,
+		max(case
 			when va.cd_doses=9 then 'Dose Unica'
 			when va.cd_doses=8 then 'Dose'
 			when va.cd_doses=1 then 'Dose 1' 
@@ -39,9 +40,9 @@ with criancas as (
 			when va.cd_doses=38 then 'Reforço'
 			when va.cd_doses=36 then 'Dose Inicial'
 			when va.cd_doses=37 then 'Dose Adicional'
-		end as dose,
-		va.flag_historico as flag_historico,
-		em.descricao as unidade_aplicacao
+		end) as dose,
+		max(va.flag_historico) as flag_historico,
+		max(em.descricao) as unidade_aplicacao
 	from 
 		usuario_cadsus uc  
 		left join vac_aplicacao va on va.cd_usu_cadsus = uc.cd_usu_cadsus 
@@ -51,6 +52,7 @@ with criancas as (
 		va.dt_aplicacao::date >= '2022-08-08'::date
 		and extract('year' from age(va.dt_aplicacao::date,uc.dt_nascimento::date)) < 5
 		and tv.cd_vacina = 81984
+	group by 1
 		)
 select
 	c.cod,
