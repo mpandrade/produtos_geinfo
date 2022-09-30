@@ -68,7 +68,7 @@ with
 					max(case when cp.dt_geracao is not null then 1 else 0 end) as fez_cp 
 				from
 					conta_paciente cp
-					inner join mulheres_25_64 mul on cp.cd_usu_cadsus = mul.cd_usu_cadsus
+					--inner join mulheres_25_64 mul on cp.cd_usu_cadsus = mul.cd_usu_cadsus
 					inner join item_conta_paciente icp on icp.cd_conta_paciente = cp.cd_conta_paciente
 					inner join procedimento prc on icp.cd_procedimento = prc.cd_procedimento
 					inner join empresa e1 on cp.empresa = e1.empresa
@@ -81,8 +81,8 @@ with
 				group  by 1
 	)
 				select
-					unidade,
-					equipe,
+					coalesce(unidade,'SEM UNIDADE')as unidade,
+					coalesce(equipe,'SEM EQUIPE')as equipe,
 					fem.quad_texto,
 					fem.inicio_quad,
 					fem.fim_quad,
