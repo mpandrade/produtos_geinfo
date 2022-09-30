@@ -36,7 +36,9 @@ with
 				when
 					(a1.cd_cid_principal in ('I10','I11','I110','I119','I12','I120','I129','I13','I130','I131',
 				'I132','I139','I15','I150','I151','I152','I158','I159','O10','O100','O101','O102','O103','O104','O109','O11')
-						or ciap2.referencia in ('K86','K87'))
+						or ciap2.referencia in ('K86','K87')
+						or a1.cd_cid_secundario in ('I10','I11','I110','I119','I12','I120','I129','I13','I130','I131',
+				'I132','I139','I15','I150','I151','I152','I158','I159','O10','O100','O101','O102','O103','O104','O109','O11'))
 					and em_atd.cod_atv = 2
 					and a1.dt_atendimento >= q.fim_quad - interval '6 months'
 					then 1
