@@ -21,11 +21,11 @@ lf <- log_open(tmp)
 # Conectando --------------------------------------------------------------
 #Conectando na base da geinfo
 conn_celk <- dbConnect(drv = RPostgres::Postgres(),
-                       port = 5432,
-                       host = 'dbsaudeflorianopolisleitura.celk.com.br',
-                       dbname = 'florianopolis_saude',
-                       user = 'alexandre_silva',
-                       password = 'Z4yvpw8Dr6djJ5S3')
+                       port = 0000,
+                       host = '...',
+                       dbname = '...',
+                       user = '...',
+                       password = '...')
 
 
 
@@ -33,7 +33,7 @@ conn_big <- bigrquery::dbConnect(
   bigquery(),
   project = "atualizacao-cadastral-360216",
   dataset = "cadastros",
-  billing = "115936702880649416570"
+  billing = "..."
 )
 
 ##########################################################################################
