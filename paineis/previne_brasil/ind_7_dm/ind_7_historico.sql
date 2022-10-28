@@ -38,7 +38,7 @@ with
 'E131','E132','E133','E134','E135','E136','E137','E138','E139','E14','E140','E141','E142','E143','E144','E145','E146','E147','E148','E149',
 'O240','O241','O242','O243','P702')
 						or ciap2.referencia in ('T89','T90'))
-					and em2.cod_atv =2
+					and em_atd.cod_atv = 2
 					and a1.dt_atendimento between (q.fim_quad - interval '6 months') and q.fim_quad
 					then 1
 				else 0
