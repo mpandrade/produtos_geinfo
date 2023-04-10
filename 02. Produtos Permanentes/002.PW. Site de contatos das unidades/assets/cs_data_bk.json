@@ -1,0 +1,195 @@
+[
+    {
+      "nome": "Abraão",
+      "endereco": "https://goo.gl/maps/zr9Vj4HmdssZ2qfj9",
+      "zapCadastro": "554832495844",
+      "emailCoord": "csabraao.pmf@gmail.com",
+      "equipes": [
+        {
+          "descricao": "570 - Verde",
+          "contatos": [
+            {
+              "tel_num": "5548988299952",
+              "tel_icon": "zap"
+            }
+          ],
+          "email": "csabraao570.pmf@gmail.com"
+        },
+        {
+          "descricao": "571 - Laranja",
+          "contatos": [
+            {
+              "tel_num": "5548988310083",
+              "tel_icon": "zap"
+            }
+          ],
+          "email": "csabraao571.pmf@gmail.com"
+        },
+        {
+          "descricao": "572 - Azul",
+          "contatos": [
+            {
+              "tel_num": "5548988312325",
+              "tel_icon": "zap"
+            }
+          ],
+          "email": "csabraao572.pmf@gmail.com"
+        },
+        {
+          "descricao": "Saúde Bucal",
+          "contatos": [
+            {
+              "tel_num": "554832495844",
+              "tel_icon": "zap"
+            }
+          ]
+        }
+      ],
+      "servicos": [
+        {
+          "descricao": "Dúvidas gerais",
+          "contatos": [
+            {
+              "tel_num": "554832495844",
+              "tel_icon": "zap"
+            }
+          ]
+        },
+        {
+          "descricao": "Recepção",
+          "contatos": [
+            {
+              "tel_num": "32495844",
+              "tel_icon": "tel_num"
+            }
+          ]
+        },
+        {
+          "descricao": "Agendamento de consultas especializadas e exames",
+          "contatos": [
+            {
+              "tel_num": "5548988379076",
+              "tel_icon": "zap"
+            }
+          ]
+        }
+      ],
+      "social": [
+        {
+          "rede": "linktree",
+          "link": "https://linktr.ee/csabraao"
+        }
+      ]
+    },
+    {
+      "nome": "Agronômica",
+      "endereco": "https://goo.gl/maps/zr9Vj4HmdssZ2qfj9",
+      "zapCadastro": "554832281310",
+      "linkCadastro": "https://docs.google.com/forms/d/e/1FAIpQLSfRqVOelYmqjhAcfbbz1LGZDtYcIi9Z7fLa-tF8dEgr--w6ng/viewform",
+      "emailCoord": "centrosaudeagronomica@gmail.com",
+      "equipes": [
+        {
+          "descricao": "690 - Laranja",
+          "contatos": [
+            {
+              "tel_num": "5548988420040",
+              "tel_icon": "zap"
+            }
+          ],
+          "email": "690csagronomica@gmail.com"
+        },
+        {
+          "descricao": "691 - Verde",
+          "contatos": [
+            {
+              "tel_num": "5548988353040",
+              "tel_icon": "zap"
+            }
+          ],
+          "email": "691csagronomica@gmail.com"
+        },
+        {
+          "descricao": "692 - Rosa",
+          "contatos": [
+            {
+              "tel_num": "5548988420897",
+              "tel_icon": "zap"
+            }
+          ],
+          "email": "csagronomica692@gmail.com"
+        },
+        {
+          "descricao": "693 - Azul",
+          "contatos": [
+            {
+              "tel_num": "5548988423768",
+              "tel_icon": "zap"
+            }
+          ],
+          "email": "csagronomica693@gmail.com"
+        },
+        {
+          "descricao": "694 - Lilás",
+          "contatos": [
+            {
+              "tel_num": "5548988312325",
+              "tel_icon": "zap"
+            }
+          ],
+          "email": "694csagronomica@gmail.com"
+        },
+        {
+          "descricao": "Saúde Bucal",
+          "contatos": [
+            {
+              "tel_num": "5548988357152",
+              "tel_icon": "zap"
+            }
+          ]
+        }
+      ],
+      "servicos": [
+        {
+          "descricao": "Dúvidas gerais",
+          "contatos": [
+            {
+              "tel_num": "554832281310",
+              "tel_icon": "zap"
+            }
+          ]
+        },
+        {
+          "descricao": "Recepção",
+          "contatos": [
+            {
+              "tel_num": "32281809",
+              "tel_icon": "tel_num"
+            }
+          ]
+        },
+        {
+          "descricao": "Agendamento de consultas especializadas e exames",
+          "contatos": [
+            {
+              "tel_num": "5548988379076",
+              "tel_icon": "zap"
+            }
+          ]
+        }
+      ],
+      "social": [
+        {
+          "rede": "linktree",
+          "link": "https://linktr.ee/csagronomica"
+        },
+        {
+          "rede": "facebook",
+          "link": "https://www.facebook.com/centrodesaudeagronomica"
+        },
+        {
+          "rede": "instagram",
+          "link": "https://instagram.com/cs_agronomica?utm_medium=copy_link"
+        }
+      ]
+    }
+  ]

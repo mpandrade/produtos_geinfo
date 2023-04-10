@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formato 1</title>
+</head>
+<body>
+    <div id="content"></div>
+    <script>
+        const contentDiv = document.querySelector('#content');
+        let content = '';
+        let CSs;
+        const timedate = new Date();
+        fetch(`../assets/cs_data.json?c=${timedate.getTime()}`).then(res => res.json()).then((data) => {
+            CSs = data;
+            for(let cs of CSs) {
+                for(let equipe of cs.equipes) {    
+                    content += `('${cs.nome}','${equipe.idEquipe}','${equipe.email}'),\n`;
+                }
+            }
+
+            content = content.slice(0, content.length-2);
+            contentDiv.innerText = content;
+        });
+    </script>
+</body>
+</html>
