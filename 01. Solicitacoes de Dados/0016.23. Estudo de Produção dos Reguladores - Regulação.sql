@@ -1,4 +1,16 @@
--- COMENTAR OS DETALHES DO CÓDIGO!
+/*
+OBSERVAÇÕES - JÁ DISCUTIDAS COM ANDRÉ/REGULAÇÃO:
+- Regulação irá enviar o nome dos Reguladores que devem entrar na listagem
+- Nas solicitações, constam apenas as solicitações autorizadas. O regulador que autorizou fica "responsável" pela solicitação, 
+mesmo que tenha ocorrência de outros reguladores.
+- Nas ocorrências, constam todas as ocorrências, não somente de solicitações autorizadas.
+- No cálculo do tempo médio, sao.cd_tp_ocorrencia=2 significa que são ocorrências do tipo Regulação, excluindo as 
+ocorrências do tipo "Solicitação".
+- No cálculo do tempo, são consideradas todas as solicitações com pelo menos uma ocorrência. Como há JOIN com a 
+tabela de primeira_regulação, só são consideradas portanto as solicitações com pelo menos uma ocorrência do tipo 2 (Regulação).
+*/
+
+
 
 
 -- PRODUÇÃO DE REGULADORES
