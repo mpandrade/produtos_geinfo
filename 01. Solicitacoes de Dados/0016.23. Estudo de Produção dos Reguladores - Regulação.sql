@@ -1,3 +1,6 @@
+-- COMENTAR OS DETALHES DO CÓDIGO!
+
+
 -- PRODUÇÃO DE REGULADORES
 with 
 	reguladores as (
