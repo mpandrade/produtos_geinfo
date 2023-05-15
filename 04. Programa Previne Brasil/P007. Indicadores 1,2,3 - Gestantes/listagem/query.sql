@@ -6,7 +6,7 @@ with
 			('_Q3','-09-01','-12-31')),
  	ano as (
  		select 
- 			generate_series(2019,2022,1) as ano),
+ 			generate_series(2021,2023,1) as ano),
  	quad as (
 	 	select
 			ano||q as quad_texto,
@@ -15,8 +15,7 @@ with
 		from 
 			dia_mes cross join ano
 		where -- Filtro para o quad atual
-			(ano||fim)::date >= current_date
-			and (ano||inicio)::date <= current_date
+			ano||q >= '2023_Q2' 
     ),
     gestantes AS (
     select 
@@ -36,9 +35,23 @@ with
     	(pn.desfecho not in (1,2,3,4,5,6,7,8,9,10) or pn.desfecho is null)
     	and coalesce((pn.dt_prov_parto::date + interval '14 day')::date, (pn.dt_ult_menst + interval '294 day')::date)::date between q.inicio_quad and q.fim_quad
     ),
+    gestantes_hiv as ( -- cte para selecionar as paciente que já tinham cid b24, e não fizeram durante a gestação exames hiv
+		select
+			g2.cd_usu_cadsus,
+			1 as hiv
+		from 
+			gestantes g2
+			join atendimento a on g2.cd_usu_cadsus = a.cd_usu_cadsus 
+		where 
+			a.cd_cid_principal = 'B24'
+   ),   
+    
+    
     gest_c_atd_exame as (
     select 
     	g1.cd_usu_cadsus,
+    	uc.dt_nascimento::date as dn,
+    	g1.dt_final_gest,
     	g1.quad_texto,
     	g1.inicio_quad,
     	g1.fim_quad,
@@ -134,7 +147,8 @@ with
 					a1.cd_cbo similar to '(225|2231|2235)%'
 					and ((p1.cd_procedimento in (1140,1141,315,340,341,412,417) and (er.dt_resultado is not null or er.ds_resultado is not null or er.status = 0))
 					or p2.cd_procedimento in (1140,1141,315,340,341,412,417) 
-					or trt.tp_teste = 0)							
+					or trt.tp_teste = 0
+					or geh.hiv=1) -- contagem para cid b24
 					then 1
 					else 0
 				end) as ex_hiv,
@@ -171,50 +185,49 @@ with
 			left join exame_requisicao er on er.cd_exame = ex.cd_exame
 			left join exame_procedimento ep on er.cd_exame_procedimento = ep.cd_exame_procedimento
 			left join procedimento p1 on ep.cd_procedimento = p1.cd_procedimento
-		where 
+			left join gestantes_hiv geh on geh.cd_usu_cadsus = g1.cd_usu_cadsus -- inclusão da cte gestantes cid b24
+		where
 			uc.flag_unificado = 0
 			and euc.st_ativo = 1
-			--and g1.cd_usu_cadsus in (634581,456613,1568747,827114)
 			and uc.st_vivo = 1
 			and uc.cd_municipio_residencia = 420540
 			and uc.situacao in (0,1)
-			--and a1.dt_atendimento::date between g1.dum and g1.dt_encer_gest
+			and a1.dt_atendimento::date between g1.dum and g1.dt_encer_gest
 			and (e1.cod_atv = 2 or e1.empresa in (258687,258681,258683,258685))
-   		group by 1,2,3,4,5,6
+   		group by 1,2,3,4,5,6,7,8
    	)
    	
-   	select
+select
 			unidade,
 			equipe,
+			cd_usu_cadsus,
+			dn,
 			quad_texto,
 			inicio_quad,
 			fim_quad,
-			count(distinct(gae.cd_usu_cadsus)) as gestantes,
-			sum(conta_previne) as gestantes_c_cid_ciap,
-            sum(case
+			case
 				when conta_previne = 1
-					and cons_12_sem = 1
-					and atendimentos >= 6
-					then 1
-				else 0
-				end) as cons_6_12,
-			sum(case
-				when ex_sifilis = 1 
-					and ex_hiv = 1
-					and conta_previne = 1
-					then 1
-				else 0
-				end) as ex_hiv_sifilis,
-			sum(case 
+					then 'Sim'
+				else 'Não'
+			end as com_cid_ciap,
+			case
+				when cons_12_sem = 1
+					then 'Sim'
+				else 'Não'
+			end as cons_12_sem,
+			atendimentos,
+			case
+				when ex_sifilis = 1
+				and ex_hiv = 1
+					then 'Sim'
+				else 'Não'
+			end as exames_hiv_sifilis,
+			case 
 				when cons_odo = 1
-				and conta_previne = 1
-				then 1
-				else 0
-			end ) as cons_odo
+				then 'Sim'
+				else 'Não'
+			end as cons_odo,
+			dt_final_gest
 		from
-			gest_c_atd_exame gae
-		where
-			current_date between inicio_quad and fim_quad
-		group by
-			1,2,3,4,5
+			gest_c_atd_exame
     
