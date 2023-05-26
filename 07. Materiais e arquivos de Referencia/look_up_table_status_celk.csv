@@ -1,0 +1,268 @@
+﻿TABELA;VARIÁVEL;VALOR;SIGNIFICADO;USAR_QUERY;OBSERVACAO;EXTRACAO
+prenatal;desfecho;1;obito;;
+prenatal;desfecho;2;mudou_se;;
+prenatal;desfecho;3;erro_cadastro;;
+prenatal;desfecho;4;aborto;;
+prenatal;desfecho;5;obito_materno;;
+prenatal;desfecho;6;mudou_estado;;
+prenatal;desfecho;7;abandono;;
+prenatal;desfecho;8;outros_motivos;;
+prenatal;desfecho;9;optou_convenio_particular;;
+prenatal;desfecho;10;obito_ambos;;
+atendimento;status;1;aguardando;;
+atendimento;status;2;atendendo;;
+atendimento;status;3;observacao;;
+atendimento;status;4;finalizado;S;
+atendimento;status;5;cancelado;;
+atendimento;status;8;fechado_sem_atendimento;;
+vac_aplicacao;status;0;reaplicada;;
+vac_aplicacao;status;1;aplicada;S;
+vac_aplicacao;status;2;nao_aplicada;;
+vac_aplicacao;status;3;cancelada;;
+vac_aplicacao;cd_doses;9;'Dose Unica'
+vac_aplicacao;cd_doses;8;'Dose';
+vac_aplicacao;cd_doses;1;'Dose 1' 
+vac_aplicacao;cd_doses;2;'Dose 2' 
+vac_aplicacao;cd_doses;3;'Dose 3'
+vac_aplicacao;cd_doses;4;'Dose 4'
+vac_aplicacao;cd_doses;5;'Dose 5'
+vac_aplicacao;cd_doses;10;'Revacinacao'
+vac_aplicacao;cd_doses;7;'2º Reforço'
+vac_aplicacao;cd_doses;6;'1º Reforço'
+vac_aplicacao;cd_doses;38;'Reforço'
+vac_aplicacao;cd_doses;36;'Dose Inicial'
+vac_aplicacao;cd_doses;37;'Dose Adicional'
+esus_ficha_atend_individual_item;problema_condicao_avaliada;1;ABP009 - asma;;SOMATORIO;substring(fpi.somatorio_proced_peq_cirurg::int4::bit(x)::char(y),z,1) = '1' onde 'x' é a quantidade de bits necessarios para a conversao, y é a de caracteres (igual) e z vai ser o caracter que quer se comparar (por padrão '1')
+esus_ficha_atend_individual_item;problema_condicao_avaliada;2;ABP019 - dengue;;SOMATORIO
+esus_ficha_atend_individual_item;problema_condicao_avaliada;4;ABP008 - desnutricao;;SOMATORIO
+esus_ficha_atend_individual_item;problema_condicao_avaliada;8;ABP006 - diabetes;;SOMATORIO
+esus_ficha_atend_individual_item;problema_condicao_avaliada;16;ABP010 - dpoc;;SOMATORIO
+esus_ficha_atend_individual_item;problema_condicao_avaliada;32;ABP020 - dst;;SOMATORIO
+esus_ficha_atend_individual_item;problema_condicao_avaliada;64;ABP018 - hanseniase;;SOMATORIO
+esus_ficha_atend_individual_item;problema_condicao_avaliada;128;ABP005 - hipertensao;;SOMATORIO
+esus_ficha_atend_individual_item;problema_condicao_avaliada;256;ABP007 - obesidade;;SOMATORIO
+esus_ficha_atend_individual_item;problema_condicao_avaliada;512;ABP001 - pre_natal;;SOMATORIO
+esus_ficha_atend_individual_item;problema_condicao_avaliada;1024;ABP004 -puericultura;;SOMATORIO
+esus_ficha_atend_individual_item;problema_condicao_avaliada;2048;ABP002 - puerperio_42_dias;;SOMATORIO
+esus_ficha_atend_individual_item;problema_condicao_avaliada;4096;ABP023 - cancer_mama;;SOMATORIO
+esus_ficha_atend_individual_item;problema_condicao_avaliada;8192;ABP022 - cancer_colo_utero;;SOMATORIO
+esus_ficha_atend_individual_item;problema_condicao_avaliada;16384;ABP024 - risco_cardiovascular;;SOMATORIO
+esus_ficha_atend_individual_item;problema_condicao_avaliada;32768;ABP015 - reabilitacao;;SOMATORIO
+esus_ficha_atend_individual_item;problema_condicao_avaliada;65536;ABP014 - saude_mental;;SOMATORIO
+esus_ficha_atend_individual_item;problema_condicao_avaliada;131072;ABP003 - saude_sexual_reprodutiva;;SOMATORIO
+esus_ficha_atend_individual_item;problema_condicao_avaliada;262144;ABP011 - tabagismo;;SOMATORIO
+esus_ficha_atend_individual_item;problema_condicao_avaliada;524288;ABP017 - tuberculose;;SOMATORIO
+esus_ficha_atend_individual_item;problema_condicao_avaliada;1048576;ABP012 - alcool;;SOMATORIO
+esus_ficha_atend_individual_item;problema_condicao_avaliada;2097152;ABP013 - outras_drogas;;SOMATORIO
+esus_ficha_atend_individual_item_procedimento;solicitado_avaliado;1;avaliado;;
+esus_ficha_atend_individual_item_procedimento;solicitado_avaliado;2;solicitado;;
+registro_agravo;status;0;pendente;;
+registro_agravo;status;1;monitoramento;;
+registro_agravo;status;2;concluido;;
+registro_agravo;status;3;cancelado;;
+registro_agravo;status;4;em_investigacao;;
+registro_agravo;status;5;investigacao_concluida;;
+exame;status;0;solicitado;;
+exame;status;1;desvinculado;;
+exame;status;2;recebido;;
+exame;status;3;autorizado;;
+exame;status;4;concluido_nao_sus;;
+exame;status;5;concluido_sus;;
+exame;status;6;nao_realizado;;
+exame;status;7;cancelado;N;
+exame;status;8;nao_autorizado;;
+exame;status;10;agendado;;
+exame_requisicao;1;aberto;
+exame_requisicao;2;concluido;
+exame_requisicao;3;nao_realizado;
+exame_requisicao;4;cancelado;
+esus_ficha_procedimento_item;somatorio_teste_rapido_ppc;1;tr_gravidez;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_teste_rapido_ppc;2;tr_dosagem_proteinuria;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_teste_rapido_ppc;4;tr_hiv;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_teste_rapido_ppc;8;tr_hepatite_c;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_teste_rapido_ppc;16;tr_sifilis;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;1;acupuntura_insercao_agulhas;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;2;administracao_vitamina_A;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;4;cateterismo_vesical_alivio;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;8;cauterizacao_quimica_pequenas_lesoes;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;16;cirurgia_unha;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;32;cuidado_estomas;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;64;curativo_especial;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;128;drenagem_abscesso;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;256;eletrocardiograma;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;512;coleta_citopatologico_colo_uterino;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;1024;exame_pe_diabetico;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;2048;exerese_biopsia_puncao_tumores_superficiais_pele;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;4096;fundoscopia;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;8192;infiltracao_cavidade_sinovial;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;16384;remocao_corpo_estranho_cavidade_auditiva;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;32768;remocao_corpo_estranho_subcutaneo;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;65536;retirada_cerume;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;131072;retirada_pontos_cirurgias;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;262144;sutura_simples;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;524288;triagem_oftalmologia;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;2097152;curativo_simples;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;4194304;afericao_temperatura;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;8388608;medicao_altura;;SOMATORIO
+esus_ficha_procedimento_item;somatorio_proced_peq_cirur;16777216;medicao_peso;;SOMATORIO
+agenda_gra_ate_horario;status;1;agendado
+agenda_gra_ate_horario;status;2;concluido
+agenda_gra_ate_horario;status;3;cancelado
+agenda_gra_ate_horario;status;4;nao_compareceu
+agenda_gra_ate_horario;status;5;remanejado
+usuario_cadsus;situacao;0;ativo
+usuario_cadsus;situacao;1;provisorio
+usuario_cadsus;situacao;2;inativo
+usuario_cadsus;situacao;3;excluido
+usuario_cadsus_cns;st_excluido;0;ativo
+usuario_cadsus_cns;st_excluido;1;excluido
+solicitacao_agendamento;status;0;nao_regulado
+solicitacao_agendamento;status;1;regulado
+solicitacao_agendamento;status;2;agendado
+solicitacao_agendamento;status;4;devolvido
+solicitacao_agendamento;status;6;cancelado
+solicitacao_agendamento;tp_fila;1;cronologica
+solicitacao_agendamento;tp_fila;2;regulacao
+solicitacao_agendamento;prioridade;0;urgente
+solicitacao_agendamento;prioridade;1;brevidade
+solicitacao_agendamento;prioridade;2;eletivo
+investigacao_arg_covid_19;classificacao_final;1;confirmado_laboratorial
+investigacao_arg_covid_19;classificacao_final;2;confirmado_clinico_epidemiologico
+investigacao_arg_covid_19;classificacao_final;3;descartado
+investigacao_arg_covid_19;classificacao_final;4;confirmado_criterio_clinico
+investigacao_arg_covid_19;classificacao_final;5;confirmado_criterio_imagem
+investigacao_arg_covid_19;classificacao_final;6;sindrome_gripal_nao_especificada
+agenda;status;2;confirmado
+agenda;status;4;inativo
+agenda_gra_ate_horario;status;1;agendado
+agenda_gra_ate_horario;status;2;concluido
+agenda_gra_ate_horario;status;3;cancelado
+agenda_gra_ate_horario;status;4;nao_compareceu
+agenda_gra_ate_horario;status;5;remanejado
+vac_aplicacao;grupo_atendimento;1;INDÍGENAS
+vac_aplicacao;grupo_atendimento;2;ASSENTADOS
+vac_aplicacao;grupo_atendimento;3;ACAMPADOS
+vac_aplicacao;grupo_atendimento;4;MILITARES
+vac_aplicacao;grupo_atendimento;5;QUILOMBOLAS
+vac_aplicacao;grupo_atendimento;6;POPULAÇÃO PRIVADA DE LIBERDADE
+vac_aplicacao;grupo_atendimento;7;POPULAÇÃO GERAL
+vac_aplicacao;grupo_atendimento;8;CRIANÇAS
+vac_aplicacao;grupo_atendimento;9;GESTANTES
+vac_aplicacao;grupo_atendimento;11;PUÉRPERAS
+vac_aplicacao;grupo_atendimento;12;IDOSOS
+vac_aplicacao;grupo_atendimento;13;FUNCIONÁRIOS DO SISTEMA PRISIONAL
+vac_aplicacao;grupo_atendimento;14;COMORBIDADES
+vac_aplicacao;grupo_atendimento;15;OUTROS GRUPOS SEM COMORBIDADE
+vac_aplicacao;grupo_atendimento;16;DOENÇA RESPIRATÓRIA CRÔNICA
+vac_aplicacao;grupo_atendimento;17;DOENÇA CARDÍACA CRÔNICA
+vac_aplicacao;grupo_atendimento;38;DOENÇA RENAL CRÔNICA
+vac_aplicacao;grupo_atendimento;18;DOENÇA RENAL CRÔNICA
+vac_aplicacao;grupo_atendimento;19;DOENÇA HEPÁTICA CRÔNICA
+vac_aplicacao;grupo_atendimento;20;DOENÇA NEUROLÓGICA CRÔNICA
+vac_aplicacao;grupo_atendimento;21;DIABETES
+vac_aplicacao;grupo_atendimento;36;DIABETES
+vac_aplicacao;grupo_atendimento;22;OBESOS
+vac_aplicacao;grupo_atendimento;23;IMUNOSSUPRIMIDOS
+vac_aplicacao;grupo_atendimento;41;IMUNOSSUPRIMIDOS
+vac_aplicacao;grupo_atendimento;24;TRANSPLANTADOS
+vac_aplicacao;grupo_atendimento;25;TRISSOMIAS
+vac_aplicacao;grupo_atendimento;26;PROFESSORES DO ENSINO BÁSICO
+vac_aplicacao;grupo_atendimento;27;CAMINHONEIROS
+vac_aplicacao;grupo_atendimento;31;CAMINHONEIROS
+vac_aplicacao;grupo_atendimento;28;TRABALHADORES DO TRANSPORTE COLETIVO
+vac_aplicacao;grupo_atendimento;29;TRABALHADORES PORTUÁRIOS
+vac_aplicacao;grupo_atendimento;33;TRABALHADORES PORTUÁRIOS
+vac_aplicacao;grupo_atendimento;30;FORÇAS DE SEGURANÇA E SALVAMENTO
+vac_aplicacao;grupo_atendimento;10;TRABALHADORES DE SAUDE
+vac_aplicacao;grupo_atendimento;32;COLETIVO RODOVIÁRIO PASSAGEIROS URBANO E DE LONGO CURSO
+vac_aplicacao;grupo_atendimento;34;ANEMIA FALCIFORME
+vac_aplicacao;grupo_atendimento;35;CÂNCER
+vac_aplicacao;grupo_atendimento;37;PORTADOR DE DPOC
+vac_aplicacao;grupo_atendimento;39;DOENÇAS CARDIO-CEREBROVASCULARES
+vac_aplicacao;grupo_atendimento;40;HIPERTENSÃO GRAVE
+vac_aplicacao;grupo_atendimento;41;IMUNOSSUPRIMIDOS
+vac_aplicacao;grupo_atendimento;42;OBESIDADE GRAVE
+vac_aplicacao;grupo_atendimento;43;60 A 64 ANOS
+vac_aplicacao;grupo_atendimento;44;65 A 69 ANOS
+vac_aplicacao;grupo_atendimento;45;70 A 74 ANOS
+vac_aplicacao;grupo_atendimento;46;75 A 79 ANOS
+vac_aplicacao;grupo_atendimento;47;80 ANOS OU MAIS
+vac_aplicacao;grupo_atendimento;48;IDOSOS INSTITUCIONALIZADOS
+vac_aplicacao;grupo_atendimento;49;MARINHA
+vac_aplicacao;grupo_atendimento;50;EXÉRCITO
+vac_aplicacao;grupo_atendimento;51;FORÇA AÉREA
+vac_aplicacao;grupo_atendimento;52;BOMBEIRO CIVIL
+vac_aplicacao;grupo_atendimento;53;BOMBEIRO MILITAR
+vac_aplicacao;grupo_atendimento;54;GUARDA MUNICIPAL
+vac_aplicacao;grupo_atendimento;55;POLICIAL ROD. FEDERAL
+vac_aplicacao;grupo_atendimento;56;POLICIAL CIVIL
+vac_aplicacao;grupo_atendimento;57;POLICIAL FEDERAL
+vac_aplicacao;grupo_atendimento;58;POLICIAL MILITAR
+vac_aplicacao;grupo_atendimento;59;RIBEIRINHA
+vac_aplicacao;grupo_atendimento;60;POVOS INDÍGENAS
+vac_aplicacao;grupo_atendimento;61;ENSINO BÁSICO
+vac_aplicacao;grupo_atendimento;62;ENSINO SUPERIOR
+vac_aplicacao;grupo_atendimento;63;AUXILIAR DE VETERINÁRIO
+vac_aplicacao;grupo_atendimento;64;BIÓLOGO
+vac_aplicacao;grupo_atendimento;65;BIOMÉDICO
+vac_aplicacao;grupo_atendimento;66;COZINHEIRO E AUXILIARES
+vac_aplicacao;grupo_atendimento;67;CUIDADOR DE IDOSOS
+vac_aplicacao;grupo_atendimento;68;DOULA/PARTEIRA
+vac_aplicacao;grupo_atendimento;69;ENFERMEIRO
+vac_aplicacao;grupo_atendimento;70;FARMACÊUTICO
+vac_aplicacao;grupo_atendimento;71;FISIOTERAPEUTAS
+vac_aplicacao;grupo_atendimento;72;FONOAUDIÓLOGO
+vac_aplicacao;grupo_atendimento;73;FUNCIONÁRIO DO SIST. FUNERÁRIO
+vac_aplicacao;grupo_atendimento;74;MÉDICO
+vac_aplicacao;grupo_atendimento;75;MED. VETERINÁRIO
+vac_aplicacao;grupo_atendimento;76;MOTORISTA DE AMBULÂNCIA
+vac_aplicacao;grupo_atendimento;77;NUTRICIONISTA
+vac_aplicacao;grupo_atendimento;78;ODONTOLOGISTA
+vac_aplicacao;grupo_atendimento;79;AUX. LIMPEZA
+vac_aplicacao;grupo_atendimento;80;EDUCADOR FÍSICO
+vac_aplicacao;grupo_atendimento;81;PSICÓLOGO
+vac_aplicacao;grupo_atendimento;82;RECEPCIONISTA
+vac_aplicacao;grupo_atendimento;83;SEGURANÇA
+vac_aplicacao;grupo_atendimento;84;ASSISTENTE SOCIAL
+vac_aplicacao;grupo_atendimento;85;TÉC. DE ENFERMAGEM
+vac_aplicacao;grupo_atendimento;86;TÉCNICO DE VETERINÁRIO
+vac_aplicacao;grupo_atendimento;87;TERAPEUTA OCUP.
+vac_aplicacao;grupo_atendimento;88;PROF. TRANSPORTE AÉREO COLETIVO
+vac_aplicacao;grupo_atendimento;89;FERROVIÁRIO
+vac_aplicacao;grupo_atendimento;90;METROVIÁRIO
+vac_aplicacao;grupo_atendimento;91;AQUAVIÁRIO
+vac_aplicacao;grupo_atendimento;92;PESSOAS COM DEFICIÊNCIA INSTITUCIONALIZADAS
+vac_aplicacao;grupo_atendimento;93;DEFICIÊNCIA GRAVE
+vac_aplicacao;grupo_atendimento;94;SITUAÇÃO DE RUA
+vac_aplicacao;grupo_atendimento;95;TRAB. INDUSTRIAIS
+vac_aplicacao;grupo_atendimento;96;SÍNDROME DE DOWN
+vac_aplicacao;grupo_atendimento;97;AUX.DE ENFERMAGEM
+vac_aplicacao;grupo_atendimento;98;TÉC. DE ODONTOLOGIA
+vac_aplicacao;grupo_atendimento;99;ESTUDANTE
+vac_aplicacao;grupo_atendimento;101;PNEUMOPATIAS CRÔNICAS GRAVES
+vac_aplicacao;grupo_atendimento;102;HIPERTENSÃO ARTERIAL RESISTENTE (HAR)
+vac_aplicacao;grupo_atendimento;103;HIPERTENSÃO ARTERIAL ESTÁGIO 3
+vac_aplicacao;grupo_atendimento;104;HIPERTENSÃO ARTERIAL ESTÁGIO 1 E 2 COM LESÃO EM ÓRGÃO-ALVO E/OU COMORBIDADE
+vac_aplicacao;grupo_atendimento;105;INSUFICIÊNCIA CARDÍACA (IC)
+vac_aplicacao;grupo_atendimento;106;COR-PULMONALE E HIPERTENSÃO PULMONAR
+vac_aplicacao;grupo_atendimento;107;CARDIOPATIA HIPERTENSIVA
+vac_aplicacao;grupo_atendimento;108;SÍNDROMES CORONARIANAS
+vac_aplicacao;grupo_atendimento;109;VALVOPATIAS
+vac_aplicacao;grupo_atendimento;110;MIOCARDIOPATIAS E PERICARDIOPATIAS
+vac_aplicacao;grupo_atendimento;111;DOENÇAS DA AORTA DOS GRANDES VASOS E FÍSTULAS ARTERIOVENOSAS
+vac_aplicacao;grupo_atendimento;112;ARRITMIAS CARDÍACAS
+vac_aplicacao;grupo_atendimento;113;CARDIOPATIAS CONGÊNITA NO ADULTO
+vac_aplicacao;grupo_atendimento;114;PRÓTESES VALVARES E DISPOSITIVOS CARDÍACOS IMPLANTADOS
+vac_aplicacao;grupo_atendimento;115;DOENÇA RENAL CRÔNICA
+vac_aplicacao;grupo_atendimento;116;HEMOGLOBINOPATIAS GRAVES
+vac_aplicacao;grupo_atendimento;117;OBESIDADE MÓRBIDA
+vac_aplicacao;grupo_atendimento;118;CIRROSE HEPÁTICA
+vac_aplicacao;grupo_atendimento;119;PACIENTES DE 18 A 64 ANOS
+vac_aplicacao;grupo_atendimento;120;TRABALHADORES DE LIMPEZA URBANA E MANEJO DE RESÍDUOS SÓLIDOS
+vac_aplicacao;grupo_atendimento;121;LACTANTES
+agenda_grade_horario;status;0;agendado
+agenda_grade_horario;status;1;pendente
+agenda_grade_horario;status;1;bloqueado
+dispensacao_medicamento_item;status;0;dispensado_totalmente
+dispensacao_medicamento_item;status;1;sem estoque_mas_pode_ter_sido_dispensado
+dispensacao_medicamento_item;status;2;dispensado_parcialmente

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<!-- PARA ABRIR O HTML NO NAVEGADOR PADRÃO, UTILIZE EXTENSÃO COMO "OPEN IN DEFAULT BROWSER" / ATALHO CONTROL+1 -->
+
+<head>
+    <title>Como criar novas tabelas no Metabase</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        ol li {
+            margin-bottom: 15px;
+        }
+        li::marker {
+            color:blue;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        code {
+            color:#0000CC;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h3>Como criar novas tabelas no Metabase</h3>
+    
+    <ol>
+        <li>Abrir o WinSCP e acessar o servidor local, IP 172.17.50.8, username ss.</li>
+        <li>Dentro da pasta home/ss/paineis/scripts_banco_local/, criar a nova pasta [nome_dataset].</li>
+        <li>Gerar o CSV em formato UTF-8 utilizando o DBeaver ou outro cliente para gerenciadores de banco de dados.</li>
+        <li>No DBeaver, selecionar o banco local "postgres".</li>
+        <li>Dentro do banco local, criar tabela com nome [nome_dataset].
+            </br><code>create table [nome_dataset] (coluna_1 varchar, coluna_2 varchar, coluna_3 int);</code>
+            </br><i>Os nomes das colunas da tabela do banco devem ser exatamente iguais às colunas do CSV.</i>
+            </br><i>Observações sobre os tipos de dado: ...</i>
+        </li>
+        <li>Importar o CSV (clicar com botão direito no nome do banco) para carregar os dados na nova tabela criada.</li>
+        <li>Verificar se os dados foram corretamente importados à tabela do banco.</li>
+        <li>No WinSCP, copiar um modelo de extrai_base.py para a nova pasta.</li>
+        <li>Em extrai_base.py, atualizar o nome do arquivo CSV em duas partes do algoritmo: exclusão e upload do arquivo.</li>
+        <li>Fazer upload da query com nome query.sql.</li>
+        <li>Copiar um modelo de script_bash.sh.</li>
+        <li>No Putty, testar o script Phyton usando o comando "python3 nome_do_py".</li>
+        <li>Se ok, testar o script bash com o comando "sh script_bash.sh".</li>
+        <li>Se ok, definir no Cron as datas/horários para rodar o script.
+            </br><i>Comando "crontab -e".</i>    
+            </br><i>Se dúvidas sobre sintaxe do Cron, pesquisar <a href="https://crontab.guru/">aqui</a>.</i>
+            </br><i>Atentar para a distribuição de carga dos processos.</i>
+        </li>
+        <li>No Metabase (...).</li>
+    </ol>
+</body>
+
+</html>
