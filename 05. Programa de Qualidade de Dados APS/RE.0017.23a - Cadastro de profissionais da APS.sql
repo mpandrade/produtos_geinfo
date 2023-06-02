@@ -8,6 +8,7 @@ select
 	p.cpf,
 	p.cd_cns,
 	pch.cd_cbo,
+	pch.carga_hr_amb as ch_ambulatorial,
 	tc.ds_cbo 
 from 
 	profissional_carga_horaria pch 

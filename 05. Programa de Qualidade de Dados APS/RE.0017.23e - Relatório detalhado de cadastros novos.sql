@@ -14,7 +14,17 @@ select
 		coalesce(uc.celular,uc.nr_telefone,uc.nr_telefone_2,uc.telefone3,uc.telefone4) similar to '%(99999999|00000000|88888888)'
 		or coalesce(uc.celular,uc.nr_telefone,uc.nr_telefone_2,uc.telefone3,uc.telefone4) is null 
 		then 'não' else 'sim' 
-		end as possui_telefone
+		end as possui_telefone,
+	case 
+        when 
+        	(uc.cpf is not null and uc.cpf != '') 
+        	and uc.cd_equipe is not null 
+        	and uc.nm_usuario not like 'RN %' 
+        	and coalesce(uc.celular,uc.nr_telefone,uc.nr_telefone_2,uc.telefone3,uc.telefone4) not similar to '%(99999999|00000000|88888888)'
+            and coalesce(uc.celular,uc.nr_telefone,uc.nr_telefone_2,uc.telefone3,uc.telefone4) is not null 
+            and uc.situacao = 0
+            then 'sim' else 'não' 
+    		end as cad_definitivo_completo
 from 
 	usuario_cadsus uc 
 	left join empresa em on uc.empresa_responsavel = em.empresa  

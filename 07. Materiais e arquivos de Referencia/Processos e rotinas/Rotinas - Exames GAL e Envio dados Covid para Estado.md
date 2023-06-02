@@ -5,7 +5,7 @@ __________________
 - Entrar no site do GAL https://gal.saude.sc.gov.br/login/
 
 
-- **Login:ve.fpolis13   Senha:Floripa13#** (usuário e senha mudam uma vez por mês -> verificar com a GERVE - Larissa)
+- **Login:ve.fpolis13   Senha:...** (usuário e senha mudam uma vez por mês -> verificar com a GERVE - Larissa)
 - Na aba a esqueda selecionar Biologia Medica > Relatorios > Relatórios Epidemiológicos Por Exame
 - Dar 2 clicks Relatórios Epidemiológicos Por Exame e nos campos selecionar : **Requisição**,**Paciente**,**Data de Nascimento**,**Data da Liberação**
 
