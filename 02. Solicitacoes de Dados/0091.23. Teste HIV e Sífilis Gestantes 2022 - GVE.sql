@@ -33,8 +33,7 @@ from
 	left join exame_procedimento ep on er.cd_exame_procedimento = ep.cd_exame_procedimento
 	left join procedimento p1 on ep.cd_procedimento = p1.cd_procedimento
 where 
-	extract('year' from least(pre.dt_prov_parto, pre.dt_parto)) = 2022 
+	extract('year' from pre.dt_ult_menst) in (2020, 2021, 2022)
 	and atd.dt_atendimento::date between pre.dt_ult_menst::date and least(pre.dt_prov_parto, pre.dt_parto)::date
 group by 1,2,3,4,5,6,7,8
 order by 3
-
