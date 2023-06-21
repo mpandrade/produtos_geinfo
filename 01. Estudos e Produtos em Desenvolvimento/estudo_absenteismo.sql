@@ -1,6 +1,6 @@
 select 
+	agah.cd_ag_gra_ate_hor as id_horario_agenda,
 	uc.cd_usu_cadsus,
-	agah.cd_ag_gra_atendimento,
 	extract('year' from age(agah.dt_agendamento::date,uc.dt_nascimento)) as idade,
 	uc.sg_sexo as sexo,
 	upper(tlc.ds_tipo_logradouro) || ' ' || upper(euc.nm_logradouro) as logradouro,
@@ -10,6 +10,7 @@ select
     e.sigla as estado,
 	em.descricao as unidade_origem,
 	em2.descricao as unidade_executante,
+	agah.dt_cadastro::date as dt_insercao_agenda,
 	agah.dt_agendamento,
 	to_char(agah.dt_agendamento, 'MM-YYYY') as mes_ano,
 	case 
@@ -22,6 +23,7 @@ select
 		when extract('dow' from agah.dt_agendamento) = 6 then 'Sábado'
 	end as dia_semana,
 	to_char(agah.dt_agendamento, 'HH24:MI') as horario,
+	sa.dt_conf_usuario::date as dt_confirmacao_usuario,	
 	tp.ds_tp_procedimento as especialidade,
 	pro.nm_profissional,
 	case 
@@ -30,7 +32,9 @@ select
 		when agah.status = 3 then 'Cancelado'
 		when agah.status = 4 then 'Falta' 
 		when agah.status = 5 then 'Remanejado' 
-	end as status
+	end as status,
+	em2.rua,
+	em2.numero	
 from 
 	agenda_gra_ate_horario agah 
 	left join agenda_grade_atendimento aga on agah.cd_ag_gra_atendimento = aga.cd_ag_gra_atendimento 
@@ -46,6 +50,7 @@ from
 	left join empresa em on agah.empresa_origem = em.empresa
 	left join empresa em2 on ag.empresa = em2.empresa
 	left join profissional pro on agah.cd_profissional = pro.cd_profissional
+	left join solicitacao_agendamento sa on agah.cd_solicitacao = sa.cd_solicitacao
 where 
 	agah.dt_agendamento::date between '2022-05-01'::date and '2023-05-31'::date
 	and ag.tp_agenda = 'C'
