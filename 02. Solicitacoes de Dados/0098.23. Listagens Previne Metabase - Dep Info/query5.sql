@@ -70,12 +70,14 @@ with
 		group by 1
 		)
 select 
-	q.inicio_quad,
-	q.fim_quad,
-	q.quad_texto,
 	cri.cd_usu_cadsus,
 	uc.nm_usuario,
 	uc.dt_nascimento,
+	uc.nr_telefone,
+	uc.nr_telefone_2,
+	uc.telefone3,
+	uc.telefone4,
+	uc.celular,
 	concat_ws(' ',euc.nm_logradouro, euc.nr_logradouro, euc.nm_comp_logradouro) as endereco,
 	age(uc.dt_nascimento) as idade,
 	cri.unidade,

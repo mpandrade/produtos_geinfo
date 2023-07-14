@@ -84,17 +84,21 @@ with
 	)
 				select
 					distinct (fem.cd_usu_cadsus),
+					uc.nm_usuario,
+					uc.dt_nascimento,
+					uc.nr_telefone,
+					uc.nr_telefone_2,
+					uc.telefone3,
+					uc.telefone4,
+					uc.celular,
 					coalesce(unidade,'SEM UNIDADE') as unidade,
 					coalesce(equipe,'SEM EQUIPE')as equipe,
-					fem.quad_texto,
-					fem.inicio_quad,
-					fem.fim_quad,
-					fem.dt_nascimento,
 					case when mcp.fez_cp = 1 then 'sim' else 'não'end as fez_cp,
 					max(to_char(mcp.dt_geracao, 'dd-mm-yyyy')) as ultimo_cp
 				from
 					mulheres_25_64 fem
 				 	left join mulheres_c_cp mcp on fem.cd_usu_cadsus = mcp.cd_usu_cadsus
-				group by 1,2,3,4,5,6,7,8
+				 	join usuario_cadsus uc on mcp.cd_usu_cadsus = uc.cd_usu_cadsus 
+				group by 1,2,3,4,5,6,7,8,9,10,11
 				
 					

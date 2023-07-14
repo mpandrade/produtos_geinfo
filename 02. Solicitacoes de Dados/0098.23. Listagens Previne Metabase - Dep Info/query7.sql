@@ -114,7 +114,13 @@ with
 			dia.unidade,
 			dia.equipe,
 			dia.cd_usu_cadsus,
+			uc.nm_usuario,
 			dia.dt_nascimento,
+			uc.nr_telefone,
+			uc.nr_telefone_2,
+			uc.telefone3,
+			uc.telefone4,
+			uc.celular,
 			dia.quad_texto,
 			dia.inicio_quad,
 			dia.fim_quad,
@@ -124,4 +130,5 @@ with
 		from 
 			diabeticos dia
 			left join exame_hbc eh on dia.cd_usu_cadsus = eh.cd_usu_cadsus
+			join usuario_cadsus uc on dia.cd_usu_cadsus = uc.cd_usu_cadsus 
 		

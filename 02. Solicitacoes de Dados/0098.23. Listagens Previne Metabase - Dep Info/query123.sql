@@ -198,11 +198,14 @@ dia_mes ("q","inicio","fim") as (
 select
 			unidade,
 			equipe,
-			cd_usu_cadsus,
-			dn,
-			quad_texto,
-			inicio_quad,
-			fim_quad,
+			uc.cd_usu_cadsus,
+			uc.nm_usuario,
+			uc.dt_nascimento,
+			uc.nr_telefone,
+			uc.nr_telefone_2,
+			uc.telefone3,
+			uc.telefone4,
+			uc.celular,
 			case
 				when conta_previne = 1
 					then 'Sim'
@@ -227,5 +230,6 @@ select
 			end as cons_odo,
 			dt_final_gest
 		from
-			gest_c_atd_exame
+			gest_c_atd_exame g
+			join usuario_cadsus uc on g.cd_usu_cadsus = uc.cd_usu_cadsus  
     

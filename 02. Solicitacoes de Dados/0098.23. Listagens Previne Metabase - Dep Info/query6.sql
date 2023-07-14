@@ -109,7 +109,13 @@ select
 	has.unidade,
 	has.equipe,
 	has.cd_usu_cadsus as codigo_usuario,
+	uc.nm_usuario,
 	has.dt_nascimento as data_nasc,
+	uc.nr_telefone,
+   	uc.nr_telefone_2,
+   	uc.telefone3,
+   	uc.telefone4,
+   	uc.celular,
 	has.quad_texto,
 	has.inicio_quad,
 	has.fim_quad,
@@ -119,3 +125,4 @@ select
 from 
 	hipertensos has
 	left join afericao_pa pa on has.cd_usu_cadsus = pa.cd_usu_cadsus
+	join usuario_cadsus uc on has.cd_usu_cadsus = uc.cd_usu_cadsus 
