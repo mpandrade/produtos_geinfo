@@ -98,7 +98,7 @@ with
 				from
 					mulheres_25_64 fem
 				 	left join mulheres_c_cp mcp on fem.cd_usu_cadsus = mcp.cd_usu_cadsus
-				 	join usuario_cadsus uc on mcp.cd_usu_cadsus = uc.cd_usu_cadsus 
+				 	left join usuario_cadsus uc on fem.cd_usu_cadsus = uc.cd_usu_cadsus 
 				group by 1,2,3,4,5,6,7,8,9,10,11
 				
 					
