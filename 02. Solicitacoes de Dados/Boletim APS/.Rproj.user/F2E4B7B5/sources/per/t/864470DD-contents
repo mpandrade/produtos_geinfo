@@ -1,0 +1,1111 @@
+---
+title: "\n \\vspace{3in} \n Boletim de Indicadores APS \\vspace{3in} \n"
+author: "Gerência de Inteligência e Informação"
+date: "`r Sys.Date()`"
+header-includes:
+  - \usepackage{titling}
+  - \pretitle{\begin{center}
+    \includegraphics[width=2in,height=2in]{color_logo.png}\LARGE\\}
+  - \posttitle{\end{center}}
+params:
+  equipe: 300
+output:
+  pdf_document: 
+    latex_engine: xelatex
+  word_document: default
+  html_document:
+    theme: simplex
+---
+
+```{r Basic data, include=FALSE}
+library(tidyverse)
+library(lubridate)
+library(rstudioapi)
+library(knitr)
+library(ggthemes)
+library(flextable)
+library(gridExtra)
+
+options(knitr.kable.NA = "-")
+
+equipe <- params$equipe
+source('boletim2.R')
+equipe.analise <- equipe
+unidade.analise <- equipes.df$unidade[equipes.df$equipe == equipe]
+```
+
+---
+subtitle: "`r unidade.analise` - Equipe `r equipe.analise`"
+---
+
+\newpage
+
+# 1. Indicadores estratégicos
+
+\newpage
+
+## 1 - Cobertura de consultas de pré-natal
+
+**Numerador**: Gestantes com 6 ou mais consultas de pré-natal sendo que a primeira foi anterior à 12ª semana
+
+**Denominador**: Gestantes
+
+**Polaridade**: Positiva
+
+**Observações**: Considerar apenas as gestantes que tiveram encerramento de seu pré-natal no período analisado
+
+```{r echo=FALSE}
+flextable(painel$ind_1.1) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 1.5) %>%
+  theme_apa()
+```
+
+```{r echo=FALSE, fig.align='center', fig.width=4, fig.height=3}
+painel$ind_1.1 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = equipe, color = 'Equipe')) +
+  geom_line(aes(y = unidade, color = 'Unidade')) +
+  geom_line(aes(y = municipio, color = 'Município')) +
+  scale_color_manual('Escopo', values = c('Equipe' = 'darkblue',
+                                          'Unidade' = 'darkgreen',
+                                          'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom")
+```
+
+\newpage
+## 2 - Proporção de gestantes com exame de HIV e Sífilis
+
+**Numerador**: Gestantes com registro de resultado de teste para HIV e Sífilis
+
+**Denominador**: Gestantes
+
+**Polaridade**: Positiva
+
+**Observações**: Considerar apenas as gestantes que tiveram encerramento de seu pré-natal no período analisado
+
+```{r echo=FALSE}
+flextable(painel$ind_1.2) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 1.5) %>%
+  theme_apa()
+```
+
+```{r echo=FALSE, fig.align='center', fig.width=4, fig.height=3}
+painel$ind_1.2 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = equipe, color = 'Equipe')) +
+  geom_line(aes(y = unidade, color = 'Unidade')) +
+  geom_line(aes(y = municipio, color = 'Município')) +
+  scale_color_manual('Escopo', values = c('Equipe' = 'darkblue',
+                                          'Unidade' = 'darkgreen',
+                                          'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom")
+```
+
+\newpage
+## 3 - Proporção de gestantes com atendimento odontológico
+
+**Numerador**: Gestantes com ao menos uma consulta odontológica drante o pré-natal
+
+**Denominador**: Gestantes
+
+**Polaridade**: Positiva
+
+**Observações**: Considerar apenas as gestantes que tiveram encerramento de seu pré-natal no período analisado
+
+```{r echo=FALSE}
+flextable(painel$ind_1.3) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 1.5) %>%
+  theme_apa()
+```
+
+```{r echo=FALSE, fig.align='center', fig.width=4, fig.height=3}
+painel$ind_1.3 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = equipe, color = 'Equipe')) +
+  geom_line(aes(y = unidade, color = 'Unidade')) +
+  geom_line(aes(y = municipio, color = 'Município')) +
+  scale_color_manual('Escopo', values = c('Equipe' = 'darkblue',
+                                          'Unidade' = 'darkgreen',
+                                          'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom")
+```
+
+\newpage
+## 4 - Proporção de mulheres com citopatológico nos últimos 3 anos
+
+**Numerador**: Mulheres com pelo menos uma coleta de citopatológico nos últimos 3 anos
+
+**Denominador**: Mulheres
+
+**Polaridade**: Positiva
+
+**Observações**: Considerar apenas as mulheres entre 25 e 64 anos de idade
+
+```{r echo=FALSE}
+flextable(painel$ind_1.4) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 1.5) %>%
+  theme_apa()
+```
+
+```{r echo=FALSE, fig.align='center', fig.width=4, fig.height=3}
+painel$ind_1.4 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = equipe, color = 'Equipe')) +
+  geom_line(aes(y = unidade, color = 'Unidade')) +
+  geom_line(aes(y = municipio, color = 'Município')) +
+  scale_color_manual('Escopo', values = c('Equipe' = 'darkblue',
+                                          'Unidade' = 'darkgreen',
+                                          'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom")
+```
+
+\newpage
+## 5 - Proporção de crianças com a terceira dose das vacinas Penta e VIP
+
+**Numerador**: Crianças com terceira dose de VIP e Penta
+
+**Denominador**: Crianças
+
+**Polaridade**: Positiva
+
+**Observações**: Considerar apenas crianças que completam 1 ano no período analisado
+
+```{r echo=FALSE}
+flextable(painel$ind_1.5) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 1.5) %>%
+  theme_apa()
+```
+
+```{r echo=FALSE, fig.align='center', fig.width=4, fig.height=3}
+painel$ind_1.5 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = equipe, color = 'Equipe')) +
+  geom_line(aes(y = unidade, color = 'Unidade')) +
+  geom_line(aes(y = municipio, color = 'Município')) +
+  scale_color_manual('Escopo', values = c('Equipe' = 'darkblue',
+                                          'Unidade' = 'darkgreen',
+                                          'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom")
+```
+
+\newpage
+## 6 - Proporção de hipertensos com consulta e aferição de PA no semestre
+
+**Numerador**: Pacientes hiperetensos com ao menos uma consulta para HAS e uma aferição de PA registradas no último semestre
+
+**Denominador**: Pacientes hipertensos
+
+**Polaridade**: Positiva
+
+**Observações**: Para identificar pacientes hipertensos utiliza CID e padrão de prescrição
+
+```{r echo=FALSE}
+flextable(painel$ind_1.6) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 1.5) %>%
+  theme_apa()
+```
+
+```{r echo=FALSE, fig.align='center', fig.width=4, fig.height=3}
+painel$ind_1.6 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = equipe, color = 'Equipe')) +
+  geom_line(aes(y = unidade, color = 'Unidade')) +
+  geom_line(aes(y = municipio, color = 'Município')) +
+  scale_color_manual('Escopo', values = c('Equipe' = 'darkblue',
+                                          'Unidade' = 'darkgreen',
+                                          'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom")
+```
+
+\newpage
+## 7 - Proporção de diabéticos com consulta e exame de HbA1c no semestre
+
+**Numerador**: Pacientes diabéticos com ao menos uma consulta para DM e uma solicitação de HbA1c no semestre
+
+**Denominador**: Pacientes diabéticos
+
+**Polaridade**: Positiva
+
+**Observações**: Para identificar pacientes diabéticos utiliza CID e padrão de prescrição
+
+```{r echo=FALSE}
+flextable(painel$ind_1.7) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 1.5) %>%
+  theme_apa()
+```
+
+```{r echo=FALSE, fig.align='center', fig.width=4, fig.height=3}
+painel$ind_1.7 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = equipe, color = 'Equipe')) +
+  geom_line(aes(y = unidade, color = 'Unidade')) +
+  geom_line(aes(y = municipio, color = 'Município')) +
+  scale_color_manual('Escopo', values = c('Equipe' = 'darkblue',
+                                          'Unidade' = 'darkgreen',
+                                          'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom")
+```
+
+\newpage
+## 8 - Proporção de pessoas com consulta Med/Enf/Odo no último ano com CPF registrado
+
+**Numerador**: Usuários com CPF registrado
+
+**Denominador**: Usuários
+
+**Polaridade**: Positiva
+
+**Observações**: Considerar apenas usuários que consultaram com Med/Enf/Odo no último ano
+
+```{r echo=FALSE}
+flextable(painel$ind_1.8) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 2) %>%
+  fontsize(size = 14, part = 'all') %>%
+  theme_apa()
+```
+
+\newpage
+## 9 - Percentual da população ativa com atendimento no ano
+### 9.1 - Percentual da população ativa com 1 consulta odontológica no ano
+
+**Numerador**: Usuários com consulta odontológica
+
+**Denominador**: Usuários
+
+**Polaridade**: Positiva
+
+**Observações**: Considerar apenas população ativa
+
+```{r echo=FALSE}
+flextable(painel$ind_1.9.1) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 2) %>%
+  fontsize(size = 14, part = 'all') %>%
+  theme_apa()
+```
+
+### 9.2 - Percentual da população ativa com 1 consulta médica no ano
+
+**Numerador**: Usuários com consulta médica
+
+**Denominador**: Usuários
+
+**Polaridade**: Positiva
+
+**Observações**: Considerar apenas população ativa
+
+```{r echo=FALSE}
+flextable(painel$ind_1.9.2) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 2) %>%
+  fontsize(size = 14, part = 'all') %>%
+  theme_apa()
+```
+
+### 9.3 - Percentual da população ativa com 1 consulta de enfermagem no ano
+
+**Numerador**: Usuários com consulta de enfermagem
+
+**Denominador**: Usuários
+
+**Polaridade**: Positiva
+
+**Observações**: Considerar apenas população ativa
+
+```{r echo=FALSE}
+flextable(painel$ind_1.9.3) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 2) %>%
+  fontsize(size = 14, part = 'all') %>%
+  theme_apa()
+```
+
+\newpage
+## 10 - PVHA com ao menos uma consulta médica em APS no semestre
+
+**Numerador**: PVHA com ao menos uma consulta médica na APS no semestre
+
+**Denominador**: PVHA
+
+**Polaridade**: Positiva
+
+**Observações**: Identificação por CID
+
+```{r echo=FALSE}
+flextable(painel$ind_1.10) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 1.5) %>%
+  theme_apa()
+```
+
+```{r echo=FALSE, fig.align='center', fig.width=4, fig.height=3}
+painel$ind_1.10 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = equipe, color = 'Equipe')) +
+  geom_line(aes(y = unidade, color = 'Unidade')) +
+  geom_line(aes(y = municipio, color = 'Município')) +
+  scale_color_manual('Escopo', values = c('Equipe' = 'darkblue',
+                                          'Unidade' = 'darkgreen',
+                                          'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom")
+```
+
+\newpage
+## 12 - Taxa de resolutividade
+
+**Numerador**: Consultas médicas que não resultaram em encaminhamento e não foram seguidas de procura na UPA nas 72h subsequentes
+
+**Denominador**: Consultas médicas
+
+**Polaridade**: Central (meta ~ 90%)
+
+```{r echo=FALSE}
+flextable(painel$ind_1.12) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 1.5) %>%
+  theme_apa()
+```
+
+```{r echo=FALSE, fig.align='center', fig.width=4, fig.height=3}
+painel$ind_1.12 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = equipe, color = 'Equipe')) +
+  geom_line(aes(y = unidade, color = 'Unidade')) +
+  geom_line(aes(y = municipio, color = 'Município')) +
+  scale_color_manual('Escopo', values = c('Equipe' = 'darkblue',
+                                          'Unidade' = 'darkgreen',
+                                          'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom")
+```
+
+\newpage
+## 13 - Proporção de pessoas vinculadas exclusivamente à UPA para consultas médicas
+
+**Numerador**: Pessoas que somente tiveram consulta médica em UPA no último ano
+
+**Denominador**: Pessoas que tiveram consulta médica em UPA ou APS no último ano
+
+**Polaridade**: Negativa
+
+```{r echo=FALSE}
+flextable(painel$ind_1.13) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 2) %>%
+  fontsize(size = 14, part = 'all') %>%
+  theme_apa()
+```
+
+\newpage
+## 14 - Percentual de devolvidos respondidos em até 7 dias
+
+**Numerador**: Inserções devolvidas que foram respondidas pelo solicitante (ou canceladas) em até 7 dias
+
+**Denominador**: Inserções devolvidas pela regulação
+
+**Polaridade**: Positiva
+
+```{r echo=FALSE}
+flextable(painel$ind_1.14) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 1.5) %>%
+  theme_apa()
+```
+
+```{r echo=FALSE, fig.align='center', fig.width=4, fig.height=3}
+painel$ind_1.14 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = equipe, color = 'Equipe')) +
+  geom_line(aes(y = unidade, color = 'Unidade')) +
+  geom_line(aes(y = municipio, color = 'Município')) +
+  scale_color_manual('Escopo', values = c('Equipe' = 'darkblue',
+                                          'Unidade' = 'darkgreen',
+                                          'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom")
+```
+
+\newpage
+## 15 - Percentual de inserções devolvidas pela regulação
+
+**Numerador**: Inserções devolvidas pela regulação
+
+**Denominador**: Inserções na regulação com o profissional como solicitante
+
+**Polaridade**: Negativa
+
+**Observações**: Considerar apenas usuários que consultaram com Med/Enf/Odo no último ano
+
+```{r echo=FALSE}
+flextable(painel$ind_1.15) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 1.5) %>%
+  theme_apa()
+```
+
+```{r echo=FALSE, fig.align='center', fig.width=4, fig.height=3}
+painel$ind_1.15 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = equipe, color = 'Equipe')) +
+  geom_line(aes(y = unidade, color = 'Unidade')) +
+  geom_line(aes(y = municipio, color = 'Município')) +
+  scale_color_manual('Escopo', values = c('Equipe' = 'darkblue',
+                                          'Unidade' = 'darkgreen',
+                                          'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom")
+```
+
+\newpage
+## 16 - Proporção de pacientes com CID F32 (episódio depressivo) em acompanhamento exclusivo na APS
+
+**Numerador**: Pacientes com acompanhamento em saúde mental na APS
+
+**Denominador**: Pecientes com acompanhamento em saúde mental em qualquer ponto da rede
+
+**Polaridade**: Positiva
+
+**Observações**: Considerar apenas pacientes cujo único histórico de saúde mental é do CID F32 (episódio depressivo) e apenas consultas fechadas com esse CID como principal
+
+```{r echo=FALSE}
+flextable(painel$ind_1.16) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 2) %>%
+  fontsize(size = 14, part = 'all') %>%
+  theme_apa()
+```
+
+\newpage
+
+# 2. Dados de produção
+
+\newpage
+
+## 1 - Número total de atendimentos (med/enf/odo)
+
+```{r echo=FALSE}
+flextable(painel$ind_2.1) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 1.5) %>%
+  theme_apa()
+```
+
+```{r echo=FALSE, fig.align='center', fig.width=6, fig.height=3}
+p1 <- painel$ind_2.1 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = equipe, color = 'Equipe')) +
+  scale_color_manual('Escopo', values = c('Equipe' = 'darkblue',
+                                          'Unidade' = 'darkgreen',
+                                          'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+p2 <- painel$ind_2.1 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = unidade, color = 'Unidade')) +
+  scale_color_manual(' ', values = c('Equipe' = 'darkblue',
+                                     'Unidade' = 'darkgreen',
+                                     'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+p3 <- painel$ind_2.1 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = municipio, color = 'Município')) +
+  scale_color_manual(' ', values = c('Equipe' = 'darkblue',
+                                     'Unidade' = 'darkgreen',
+                                     'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+grid.arrange(p1,
+             p2,
+             p3,
+             ncol = 3)
+```
+
+\newpage
+
+## 2 - Número total de consultas médicas
+
+```{r echo=FALSE}
+flextable(painel$ind_2.2) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 1.5) %>%
+  theme_apa()
+```
+
+```{r echo=FALSE, fig.align='center', fig.width=6, fig.height=3}
+p1 <- painel$ind_2.2 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = equipe, color = 'Equipe')) +
+  scale_color_manual('Escopo', values = c('Equipe' = 'darkblue',
+                                          'Unidade' = 'darkgreen',
+                                          'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+p2 <- painel$ind_2.2 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = unidade, color = 'Unidade')) +
+  scale_color_manual(' ', values = c('Equipe' = 'darkblue',
+                                     'Unidade' = 'darkgreen',
+                                     'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+p3 <- painel$ind_2.2 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = municipio, color = 'Município')) +
+  scale_color_manual(' ', values = c('Equipe' = 'darkblue',
+                                     'Unidade' = 'darkgreen',
+                                     'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+grid.arrange(p1,
+             p2,
+             p3,
+             ncol = 3)
+```
+
+\newpage
+
+## 3 - Número total de consultas de enfermagem
+
+```{r echo=FALSE}
+flextable(painel$ind_2.3) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 1.5) %>%
+  theme_apa()
+```
+
+```{r echo=FALSE, fig.align='center', fig.width=6, fig.height=3}
+p1 <- painel$ind_2.3 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = equipe, color = 'Equipe')) +
+  scale_color_manual('Escopo', values = c('Equipe' = 'darkblue',
+                                          'Unidade' = 'darkgreen',
+                                          'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+p2 <- painel$ind_2.3 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = unidade, color = 'Unidade')) +
+  scale_color_manual(' ', values = c('Equipe' = 'darkblue',
+                                     'Unidade' = 'darkgreen',
+                                     'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+p3 <- painel$ind_2.3 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = municipio, color = 'Município')) +
+  scale_color_manual(' ', values = c('Equipe' = 'darkblue',
+                                     'Unidade' = 'darkgreen',
+                                     'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+grid.arrange(p1,
+             p2,
+             p3,
+             ncol = 3)
+```
+
+\newpage
+
+## 4 - Número total de consultas odontológicas
+
+```{r echo=FALSE}
+flextable(painel$ind_2.3) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 1.5) %>%
+  theme_apa()
+```
+
+```{r echo=FALSE, fig.align='center', fig.width=6, fig.height=3}
+p1 <- painel$ind_2.3 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = equipe, color = 'Equipe')) +
+  scale_color_manual('Escopo', values = c('Equipe' = 'darkblue',
+                                          'Unidade' = 'darkgreen',
+                                          'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+p2 <- painel$ind_2.3 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = unidade, color = 'Unidade')) +
+  scale_color_manual(' ', values = c('Equipe' = 'darkblue',
+                                     'Unidade' = 'darkgreen',
+                                     'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+p3 <- painel$ind_2.3 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = municipio, color = 'Município')) +
+  scale_color_manual(' ', values = c('Equipe' = 'darkblue',
+                                     'Unidade' = 'darkgreen',
+                                     'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+grid.arrange(p1,
+             p2,
+             p3,
+             ncol = 3)
+```
+
+\newpage
+
+## 5 - Número de vacinas aplicadas
+
+```{r echo=FALSE}
+flextable(painel$ind_2.5) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 1.5) %>%
+  theme_apa()
+```
+
+```{r echo=FALSE, fig.align='center', fig.width=6, fig.height=3}
+p1 <- painel$ind_2.5 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = equipe, color = 'Equipe')) +
+  scale_color_manual('Escopo', values = c('Equipe' = 'darkblue',
+                                          'Unidade' = 'darkgreen',
+                                          'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+p2 <- painel$ind_2.5 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = unidade, color = 'Unidade')) +
+  scale_color_manual(' ', values = c('Equipe' = 'darkblue',
+                                     'Unidade' = 'darkgreen',
+                                     'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+p3 <- painel$ind_2.5 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = municipio, color = 'Município')) +
+  scale_color_manual(' ', values = c('Equipe' = 'darkblue',
+                                     'Unidade' = 'darkgreen',
+                                     'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+grid.arrange(p1,
+             p2,
+             p3,
+             ncol = 3)
+```
+
+\newpage
+
+## 6 - Número de procedimentos de enfermagem
+
+```{r echo=FALSE}
+flextable(painel$ind_2.6) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 1.5) %>%
+  theme_apa()
+```
+
+```{r echo=FALSE, fig.align='center', fig.width=6, fig.height=3}
+p1 <- painel$ind_2.6 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = equipe, color = 'Equipe')) +
+  scale_color_manual('Escopo', values = c('Equipe' = 'darkblue',
+                                          'Unidade' = 'darkgreen',
+                                          'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+p2 <- painel$ind_2.6 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = unidade, color = 'Unidade')) +
+  scale_color_manual(' ', values = c('Equipe' = 'darkblue',
+                                     'Unidade' = 'darkgreen',
+                                     'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+p3 <- painel$ind_2.6 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = municipio, color = 'Município')) +
+  scale_color_manual(' ', values = c('Equipe' = 'darkblue',
+                                     'Unidade' = 'darkgreen',
+                                     'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+grid.arrange(p1,
+             p2,
+             p3,
+             ncol = 3)
+```
+
+\newpage
+
+## 7 - Número de dispensações de medicamentos
+
+```{r echo=FALSE}
+flextable(painel$ind_2.7) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 1.5) %>%
+  theme_apa()
+```
+
+```{r echo=FALSE, fig.align='center', fig.width=6, fig.height=3}
+p1 <- painel$ind_2.7 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = equipe, color = 'Equipe')) +
+  scale_color_manual('Escopo', values = c('Equipe' = 'darkblue',
+                                          'Unidade' = 'darkgreen',
+                                          'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+p2 <- painel$ind_2.7 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = unidade, color = 'Unidade')) +
+  scale_color_manual(' ', values = c('Equipe' = 'darkblue',
+                                     'Unidade' = 'darkgreen',
+                                     'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+p3 <- painel$ind_2.7 %>%
+  ggplot(aes(x = mes)) +
+  geom_line(aes(y = municipio, color = 'Município')) +
+  scale_color_manual(' ', values = c('Equipe' = 'darkblue',
+                                     'Unidade' = 'darkgreen',
+                                     'Município' = 'darkred')) +
+  labs(y = 'Resultado',
+       x = 'Mês') +
+  theme_minimal() +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+grid.arrange(p1,
+             p2,
+             p3,
+             ncol = 3)
+```
+
+\newpage
+
+# 3. Caracterização da população
+
+\newpage
+
+## 1 - População ativa em todos os serviços
+
+**Definição**: População do território que passou por consulta med/enf/odo no espaço de 2 anos
+
+```{r echo=FALSE}
+flextable(painel$ind_3.1) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 2) %>%
+  fontsize(size = 14, part = 'all') %>%
+  theme_apa()
+```
+
+\newpage
+
+## 2 - População ativa em consultas médicas 
+
+**Definição**: População do território que passou por consulta médica no espaço de 2 anos
+
+```{r echo=FALSE}
+flextable(painel$ind_3.2) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 2) %>%
+  fontsize(size = 14, part = 'all') %>%
+  theme_apa()
+```
+
+\newpage
+
+## 3 - População ativa em consultas de enfermagem
+
+**Definição**: População do território que passou por consulta de enfermagem no espaço de 2 anos
+
+```{r echo=FALSE}
+flextable(painel$ind_3.3) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 2) %>%
+  fontsize(size = 14, part = 'all') %>%
+  theme_apa()
+```
+
+\newpage
+
+## 4 - População ativa em consultas odontológicas
+
+**Definição**: População do território que passou por consulta odontológicas no espaço de 2 anos
+
+```{r echo=FALSE}
+flextable(painel$ind_3.4) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 2) %>%
+  fontsize(size = 14, part = 'all') %>%
+  theme_apa()
+```
+
+\newpage
+
+## 5 - População ativa menor de 5 anos
+
+**Definição**: População do território com idade menor que 5 anos que passou por consulta med/enf/odo no espaço de 2 anos
+
+```{r echo=FALSE}
+flextable(painel$ind_3.5) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 2) %>%
+  fontsize(size = 14, part = 'all') %>%
+  theme_apa()
+```
+
+\newpage
+
+## 6 - População ativa maior de 65 anos
+
+**Definição**: População do território com idade maior ou igual a 65 anos que passou por consulta med/enf/odo no espaço de 2 anos
+
+```{r echo=FALSE}
+flextable(painel$ind_3.6) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 2) %>%
+  fontsize(size = 14, part = 'all') %>%
+  theme_apa()
+```
+
+\newpage
+
+## 7 - Número pessoas com HAS e DM
+
+**Definição**: Número absoluto de usuários com Dx de HAS ou DM
+
+```{r echo=FALSE}
+flextable(painel$ind_3.7) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 2) %>%
+  fontsize(size = 14, part = 'all') %>%
+  theme_apa()
+```
+
+\newpage
+
+## 8 - Prevalência de HAS e DM
+
+**Definição**: Proporção da população ativa com diagnóstico de HAS ou DM
+
+```{r echo=FALSE}
+flextable(painel$ind_3.8) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 2) %>%
+  fontsize(size = 14, part = 'all') %>%
+  theme_apa()
+```
+
+\newpage
+
+## 9 - Número de PVHA
+
+**Definição**: Número absoluto de usuários com Dx de HIV
+
+```{r echo=FALSE}
+flextable(painel$ind_3.9) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 2) %>%
+  fontsize(size = 14, part = 'all') %>%
+  theme_apa()
+```
+
+\newpage
+
+## 10 - Prevalência de HIV
+
+**Definição**: Proporção da população ativa com diagnóstico de HIV
+
+```{r echo=FALSE}
+flextable(painel$ind_3.10) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 2) %>%
+  fontsize(size = 14, part = 'all') %>%
+  theme_apa()
+```
+
+\newpage
+
+## 11 - Número de pacientes com TB
+
+**Definição**: Número absoluto de usuários com Dx de TB
+
+```{r echo=FALSE}
+flextable(painel$ind_3.11) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 2) %>%
+  fontsize(size = 14, part = 'all') %>%
+  theme_apa()
+```
+
+\newpage
+
+## 12 - Prevalência de TB
+
+**Definição**: Proporção da população ativa com diagnóstico de TB
+
+```{r echo=FALSE}
+flextable(painel$ind_3.12) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 2) %>%
+  fontsize(size = 14, part = 'all') %>%
+  theme_apa()
+```
+
+\newpage
+
+## 13 - Número de Gestantes
+
+**Definição**: Número de usuárias com pré-natal aberto
+
+```{r echo=FALSE}
+flextable(painel$ind_3.13) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 2) %>%
+  fontsize(size = 14, part = 'all') %>%
+  theme_apa()
+```
+
+\newpage
+
+## 14 - Número de pessoas com CID de depressão e ansiedade
+
+**Definição**: Número de pessoas com histórico de atendimento em saúde mental para depressão (CIDs F32 e F33) ou ansiedade (CID F41)
+
+```{r echo=FALSE}
+flextable(painel$ind_3.14) %>%
+  set_header_labels(mes = 'Mês', equipe = 'Equipe', unidade = 'Unidade', municipio = 'Município') %>%
+  width(width = 2) %>%
+  fontsize(size = 14, part = 'all') %>%
+  theme_apa()
+```
+
+\newpage
+
+## 15 - 10 grupos de CID mais registrados
+
+```{r echo=FALSE}
+flextable(painel$ind_3.15) %>%
+  set_header_labels(cd_grupo_cid = 'Código', nm_grupo_cid = 'Descrição', consultas = 'Consultas', freq = 'Frequência') %>%
+  width(j = 1, width = 1) %>%
+  width(j = 2, width = 2.5) %>%
+  width(j = 3, width = 1) %>%
+  width(j = 4, width = 1) %>%
+  fontsize(size = 9, part = 'all') %>%
+  theme_apa()
+```

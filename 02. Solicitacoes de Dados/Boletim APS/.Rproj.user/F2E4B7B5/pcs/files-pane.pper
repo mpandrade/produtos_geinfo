@@ -1,0 +1,13 @@
+{
+    "path": "~/GitHub/produtos_geinfo/02. Solicitacoes de Dados/Boletim APS",
+    "sortOrder": [
+        {
+            "columnIndex": 4,
+            "ascending": false
+        },
+        {
+            "columnIndex": 2,
+            "ascending": true
+        }
+    ]
+}

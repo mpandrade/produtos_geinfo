@@ -1,0 +1,179 @@
+library(tidyverse)
+library(lubridate)
+library(rstudioapi)
+library(DBI)
+library(bit64)
+library(openxlsx)
+
+options(dplyr.summarise.inform = FALSE)
+
+gc()
+
+setwd(dirname(getActiveDocumentContext()$path))
+
+conn_celk <- dbConnect(drv = RPostgres::Postgres(),
+                       port = 5432,
+                       host = 'dbsaudeflorianopolisleitura.celk.com.br',
+                       dbname = 'florianopolis_saude',
+                       user = 'alexandre_silva',
+                       password = 'Z4yvpw8Dr6djJ5S3')
+
+
+# Versão anterior (válida até junho) ----
+atd.query <- read_file('painel_v1_atd.sql')
+atd.df <- dbGetQuery(conn = conn_celk, statement = atd.query) %>%
+  mutate_if(is.integer64, as.numeric)
+
+resultado_atd.v1 <- atd.df %>%
+  mutate(tempo_cr_med = as.integer(difftime(dt_primeiro_atendimento_medico, dt_fechamento_primeira_cl_risco, units='mins')),
+         tempo_perm_total = as.integer(difftime(dt_fechamento, dt_chegada, units='hours')),
+         cor = case_when(primeira_cl_risco == 'Emergência' ~ 'Vermelho',
+                         primeira_cl_risco == 'Muito urgente' ~ 'Laranja',
+                         primeira_cl_risco == 'Urgente' ~ 'Amarelo',
+                         primeira_cl_risco == 'Pouco Urgente' ~ 'Verde',
+                         primeira_cl_risco == 'Não Urgente' ~ 'Azul'),
+         tempo_esperado = case_when(primeira_cl_risco == 'Emergência' ~ 5,
+                                    primeira_cl_risco == 'Muito urgente' ~ 10,
+                                    primeira_cl_risco == 'Urgente' ~ 60,
+                                    primeira_cl_risco == 'Pouco Urgente' ~ 120,
+                                    primeira_cl_risco == 'Não Urgente' ~ 240),
+         fl_tempo_adequado = tempo_cr_med < tempo_esperado,
+         fl_adeq_ate_classificacao = as.integer(difftime(dt_inicio_primeira_cl_risco, dt_chegada, units='mins')) < 10) %>%
+  group_by(mes_referencia, unidade) %>%
+  summarise(quant_total = n_distinct(nr_atendimento_principal),
+            quant_classificado = n_distinct(nr_atendimento_principal[!is.na(cor)]),
+            quant_tempo_classificacao_ok = n_distinct(nr_atendimento_principal[!is.na(cor) & fl_adeq_ate_classificacao]),
+            quant_vermelho = n_distinct(nr_atendimento_principal[cor == 'Vermelho']),
+            quant_vermelho_tempo_ok = n_distinct(nr_atendimento_principal[cor == 'Vermelho' & fl_tempo_adequado]),
+            quant_laranja = n_distinct(nr_atendimento_principal[cor == 'Laranja']),
+            quant_laranja_tempo_ok = n_distinct(nr_atendimento_principal[cor == 'Laranja' & fl_tempo_adequado]),
+            quant_amarelo = n_distinct(nr_atendimento_principal[cor == 'Amarelo']),
+            quant_amarelo_tempo_ok = n_distinct(nr_atendimento_principal[cor == 'Amarelo' & fl_tempo_adequado]),
+            ind_08.amarelo = round(mean(tempo_perm_total[cor == 'Amarelo'], na.rm = T), 2),
+            quant_verde = n_distinct(nr_atendimento_principal[cor == 'Verde']),
+            quant_verde_tempo_ok = n_distinct(nr_atendimento_principal[cor == 'Verde' & fl_tempo_adequado]),
+            ind_08.verde = round(mean(tempo_perm_total[cor == 'Verde'], na.rm = T), 2),
+            quant_azul = n_distinct(nr_atendimento_principal[cor == 'Azul']),
+            quant_azul_tempo_ok = n_distinct(nr_atendimento_principal[cor == 'Azul' & fl_tempo_adequado]),
+            ind_08.azul = round(mean(tempo_perm_total[cor == 'Azul'], na.rm = T), 2),
+            quant_at_medico = n_distinct(nr_atendimento_principal[fl_atend_medico == 1]),
+            quant_cid_inespecifico = n_distinct(nr_atendimento_principal[fl_atend_medico == 1 & fl_cid_especifico == 0]),
+            quant_motivo_registrado = n_distinct(nr_atendimento_principal[fl_motivo_preenchido == 1]),
+            quant_exame_solicitado = n_distinct(nr_atendimento_principal[fl_exame == 1]),
+            quant_exame_4h = n_distinct(nr_atendimento_principal[fl_exame_4h == 1])) %>%
+  mutate(ind_05.vermelho = round(quant_vermelho_tempo_ok / quant_vermelho * 100, 2),
+         ind_05.laranja = round(quant_laranja_tempo_ok / quant_laranja * 100, 2),
+         ind_05.amarelo = round(quant_amarelo_tempo_ok / quant_amarelo * 100, 2),
+         ind_05.verde = round(quant_verde_tempo_ok / quant_verde * 100, 2),
+         ind_05.azul = round(quant_azul_tempo_ok / quant_azul * 100, 2),
+         ind_06 = round(quant_tempo_classificacao_ok / quant_classificado * 100, 2),
+         ind_09 = round(quant_cid_inespecifico / quant_at_medico * 100, 2),
+         ind_10 = round(quant_motivo_registrado / quant_total * 100, 2),
+         ind_12 = round(quant_exame_4h / quant_exame_solicitado * 100, 2)) %>%
+  select(!starts_with('quant'))
+
+rec_v1.query <- read_file('painel_v1_rec.sql')
+rec_v1.df <- dbGetQuery(conn = conn_celk, statement = rec_v1.query) %>%
+  mutate_if(is.integer64, as.numeric)
+
+resultado.v1 <- rec_v1.df %>%
+  mutate(ind_14 = round(dispensados / receitados * 100, 2)) %>%
+  inner_join(resultado_atd.v1, by = c('mes_referencia', 'unidade')) %>%
+  select(-c(receitados, dispensados)) %>%
+  arrange(unidade, mes_referencia) %>%
+  select(unidade,
+         mes_referencia,
+         ind_05.vermelho,
+         ind_05.laranja,
+         ind_05.amarelo,
+         ind_05.verde,
+         ind_05.azul,
+         ind_06,
+         ind_08.amarelo,
+         ind_08.verde,
+         ind_08.azul,
+         ind_09,
+         ind_10,
+         ind_12,
+         ind_14)
+
+# Nova versão (válida a partir de julho) ----
+rec_v2.query <- read_file('painel_v2_rec.sql')
+rec_v2.df <- dbGetQuery(conn = conn_celk, statement = rec_v2.query) %>%
+  mutate_if(is.integer64, as.numeric)
+
+cad_v2.query <- read_file('painel_v2_cad.sql')
+cad_v2.df <- dbGetQuery(conn = conn_celk, statement = cad_v2.query) %>%
+  mutate_if(is.integer64, as.numeric)
+
+prep_v2.query <- read_file('painel_v2_prep.sql')
+prep_v2.df <- dbGetQuery(conn = conn_celk, statement = prep_v2.query) %>%
+  mutate_if(is.integer64, as.numeric)
+
+cad_v2.df <- cad_v2.df %>%
+  mutate(ind_12 = round(cad_incompletos / total_cadastros_novos * 100, 2))
+
+resultado_atd.v2 <-atd.df %>%
+  mutate(tempo_cr_med = as.integer(difftime(dt_primeiro_atendimento_medico, dt_fechamento_primeira_cl_risco, units='mins')),
+         tempo_perm_total = as.integer(difftime(dt_fechamento, dt_chegada, units='hours')),
+         cor = case_when(primeira_cl_risco == 'Emergência' ~ 'Vermelho',
+                         primeira_cl_risco == 'Muito urgente' ~ 'Laranja',
+                         primeira_cl_risco == 'Urgente' ~ 'Amarelo',
+                         primeira_cl_risco == 'Pouco Urgente' ~ 'Verde',
+                         primeira_cl_risco == 'Não Urgente' ~ 'Azul'),
+         tempo_esperado = case_when(primeira_cl_risco == 'Emergência' ~ 5,
+                                    primeira_cl_risco == 'Muito urgente' ~ 10,
+                                    primeira_cl_risco == 'Urgente' ~ 60,
+                                    primeira_cl_risco == 'Pouco Urgente' ~ 120,
+                                    primeira_cl_risco == 'Não Urgente' ~ 240),
+         fl_tempo_adequado = tempo_cr_med < tempo_esperado,
+         tempo_ate_classificacao = as.integer(difftime(dt_inicio_primeira_cl_risco, dt_chegada, units='mins'))) %>%
+  group_by(mes_referencia, unidade) %>%
+  summarise(ind_1.1 = n_distinct(nr_atendimento_principal),
+            ind_1.2 = n_distinct(nr_atendimento_principal[!is.na(cor)]),
+            ind_2.4 = round(mean(tempo_ate_classificacao), 2),
+            ind_2.5 = round(mean(tempo_cr_med[cor == 'Vermelho'], na.rm = T), 2),
+            ind_2.6 = round(mean(tempo_cr_med[cor == 'Laranja'], na.rm = T), 2),
+            ind_2.7 = round(mean(tempo_cr_med[cor == 'Amarelo'], na.rm = T), 2),
+            ind_2.8 = round(mean(tempo_cr_med[cor == 'Verde'], na.rm = T), 2),
+            ind_2.9 = round(mean(tempo_cr_med[cor == 'Azul'], na.rm = T), 2),
+            quant_atend_prep = n_distinct(nr_atendimento_principal[fl_cid_exposicao_hiv == 1]),
+            quant_at_medico = n_distinct(nr_atendimento_principal[fl_atend_medico == 1]),
+            quant_cid_inespecifico = n_distinct(nr_atendimento_principal[fl_atend_medico == 1 & fl_cid_especifico == 0]),
+            ind_2.11 = round(quant_cid_inespecifico / quant_at_medico * 100, 2)) %>%
+  rowwise() %>%
+  mutate(quant_disp_prep = sum(prep_v2.df$dispensacoes[prep_v2.df$unidade == unidade &
+                                                         prep_v2.df$mes_referencia == mes_referencia], na.rm = T),
+         ind_2.10 = round(quant_disp_prep / quant_atend_prep * 100, 2),
+         ind_2.12 = mean(cad_v2.df$ind_12[cad_v2.df$unidade == unidade &
+                                            cad_v2.df$mes_referencia == mes_referencia], na.rm = T)) %>%
+  ungroup() %>%
+  select(-starts_with('quant_'))
+
+resultado.v2 <- rec_v2.df %>%
+  mutate(ind_2.16 = round(dispensacoes / receitas * 100, 2)) %>%
+  inner_join(resultado_atd.v2, by = c('mes_referencia', 'unidade')) %>%
+  select(-c(receitas, dispensacoes)) %>%
+  arrange(unidade, mes_referencia) %>%
+  select(unidade,
+         mes_referencia,
+         ind_1.1,
+         ind_1.2,
+         ind_2.4,
+         ind_2.5,
+         ind_2.6,
+         ind_2.7,
+         ind_2.8,
+         ind_2.9,
+         ind_2.10,
+         ind_2.11,
+         ind_2.12,
+         ind_2.16)
+
+# Cria arquivo de saída ----
+result.list <- list(
+  'Modelo até 2023-06' = resultado.v1[resultado.v1$mes_referencia < as.Date('2023-07-01'),],
+  'Modelo a partir de 2023-07' = resultado.v2[resultado.v2$mes_referencia >= as.Date('2023-07-01'),]
+)
+
+write.xlsx(result.list, file = paste0('indicadores_upas_', today(), '.xlsx'))
