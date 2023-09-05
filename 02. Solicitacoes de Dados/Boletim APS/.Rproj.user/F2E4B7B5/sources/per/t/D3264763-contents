@@ -24,6 +24,14 @@ conn_celk <- dbConnect(drv = RPostgres::Postgres(),
                        user = 'alexandre_silva',
                        password = 'Z4yvpw8Dr6djJ5S3')
 
+# Conecta na base da Geinfo
+conn_geinfo <- dbConnect(drv = RPostgres::Postgres(),
+                         port = 5432,
+                         host = '172.17.50.8',
+                         dbname = 'postgres',
+                         user = 'postgres',
+                         password = "bancogeinfo")
+
 # Baixa dados ----
 print(paste0('Baixando dados gerais... ', lubridate::now()))
 # A expressão "mutate_if(is.integer64, as.numeric)" é usada porque o R não lida bem com algumas colunas que vêm do Postgres
@@ -172,12 +180,24 @@ cid.df <- dbGetQuery(conn = conn_celk, statement = cid.sql) %>%
 dt_final <- floor_date(today(), unit = 'months') %m-% months(1)
 dt_inicial <- floor_date(today(), unit = 'months') %m-% years(1)
 datas <- seq(dt_inicial, dt_final, by = 'month')
-ind.df <- as.data.frame(datas) %>%
-  rename(mes = datas) %>%
-  mutate(eom = (mes %m+% months(1)) - days(1))
 
-## Indicadores estratégicos ----
-print(paste0('Calculando indicadores... ', lubridate::now()))
+## Checa competências já estudadas
+if (dbExistsTable(conn_geinfo, 'boletim_aps_datas')){
+  datas.sql <- dbReadTable(conn_geinfo,
+                           'boletim_aps_datas')
+  datas.estudo <- as.Date(setdiff(datas, datas.sql$datas))
+} else {
+  datas.estudo <- datas
+}
+
+dbWriteTable(conn_geinfo,
+             'boletim_aps_datas',
+             data.frame(datas.estudo),
+             append = T)
+
+ind.df <- as.data.frame(datas.estudo) %>%
+  rename(mes = datas.estudo) %>%
+  mutate(eom = (mes %m+% months(1)) - days(1))
 
 ### Indicadores 1, 2, 3 ----
 ind_1.123.df <- gestantes.df %>%
@@ -189,12 +209,16 @@ ind_1.123.df <- gestantes.df %>%
   group_by(cd_usu_cadsus, mes_fechamento) %>%
   summarise(ind_1 = sum(consultas_12s > 0 & consultas_ges >= 6),
             ind_2 = sum((fl_ex_hiv.lab + fl_ex_hiv.tr + fl_ex_hiv) > 0 & (fl_ex_sif.lab + fl_ex_sif.tr + fl_ex_sif) > 0),
+            ind_2.1 = sum((fl_ex_hiv.lab + fl_ex_hiv.tr + fl_ex_hiv) > 0),
+            ind_2.2 = sum((fl_ex_sif.lab + fl_ex_sif.tr + fl_ex_sif) > 0),
             ind_3 = sum(consultas_odo > 0)) %>%
   left_join(usuarios.df, by = 'cd_usu_cadsus') %>%
   group_by(unidade, equipe, mes_fechamento) %>%
   summarise(ind_1.num = sum(ind_1),
             ind_1.den = n(),
             ind_2.num = sum(ind_2),
+            ind_2.1.num = sum(ind_2.1),
+            ind_2.2.num = sum(ind_2.2),
             ind_2.den = ind_1.den,
             ind_3.num = sum(ind_3),
             ind_3.den = ind_1.den) %>%
@@ -442,6 +466,8 @@ ind_3 <- usuarios.df %>%
             ind_3.6 = sum((cons_med_aps + cons_enf_aps + cons_odo_aps) > 0 &
                             dt_nascimento <= (floor_date(today(), unit = 'month') %m-% years(65))),
             ind_3.7 = sum(fl_has > 0 | fl_dm > 0, na.rm = T),
+            ind_3.7.1 = sum(fl_has > 0, na.rm = T),
+            ind_3.7.2 = sum(fl_dm > 0, na.rm = T),
             ind_3.9 = sum(fl_hiv > 0, na.rm = T),
             ind_3.11 = sum(fl_tb > 0, na.rm = T),
             ind_3.13 = sum(!is.na(cd_prenatal)),
@@ -482,30 +508,53 @@ indicadores_mensal.df <- ind_1.123.df %>%
   full_join(ind_1.1415.df) %>%
   full_join(ind_2.12346) %>%
   full_join(ind_2.5.df) %>%
-  full_join(ind_2.7.df)
+  full_join(ind_2.7.df) %>%
+  mutate(mes = as.Date(mes)) %>%
+  filter(mes %in% datas.estudo) %>%
+  arrange(unidade, equipe, mes)
 
-## indicadores de extração isolada ----
+## Escreve base histórica de indicadores ----
+mes.atual <- floor_date(today(), unit = 'month')
+mes.anterior <- mes.atual %m-% months(1)
+
 indicadores_pontual.df <- ind_1.8.df %>%
   full_join(ind_1.9.df) %>%
   full_join(ind_1.13.df) %>%
   full_join(ind_1.16.df) %>%
-  full_join(ind_3)
+  full_join(ind_3) %>%
+  mutate(mes = mes.atual %m-% months(1)) %>%
+  select(unidade, equipe, mes, starts_with('ind_'))
 
-print(paste0('Criando estrutura por equipe... ', lubridate::now()))
+# dbRemoveTable(conn_geinfo,
+#               'boletim_aps_mensal')
+# dbRemoveTable(conn_geinfo,
+#               'boletim_aps_pontual')
 
-# Cria estruturas para equipe isolada
-mes.atual <- floor_date(today(), unit = 'month')
+dbWriteTable(conn_geinfo,
+             'boletim_aps_mensal',
+             indicadores_mensal.df,
+             append = T)
 
-ind_mensal.eqp.df <- indicadores_mensal.df %>%
-  # filter(equipe == equipe.analise) %>%
-  filter(mes < floor_date(today(), unit = 'month') &
-           mes >= floor_date(today(), unit = 'month') %m-% years(1))
-ind_mensal.eqp.df %>%
-  write_excel_csv2(paste0('ind_mensal_eqp.', mes.atual, '.csv'))
+dbWriteTable(conn_geinfo,
+             'boletim_aps_pontual',
+             indicadores_pontual.df,
+             append = T)
 
-ind_pontual.eqp.df <- indicadores_pontual.df
-ind_pontual.eqp.df %>%
-  write_excel_csv2(paste0('ind_pontual_eqp.', mes.atual, '.csv'))
+if (dbExistsTable(conn_geinfo, 'boletim_aps_cid')){
+  dbRemoveTable(conn_geinfo,
+                'boletim_aps_cid')
+}
 
-ind_3.15.df %>%
-  write_excel_csv2(paste0('ind_cid_eqp.', mes.atual, '.csv'))
+dbWriteTable(conn_geinfo,
+             'boletim_aps_cid',
+             ind_3.15.df)
+
+if (dbExistsTable(conn_geinfo, 'boletim_aps_eqp')){
+  dbRemoveTable(conn_geinfo,
+                'boletim_aps_eqp')
+}
+
+dbWriteTable(conn_geinfo,
+             'boletim_aps_eqp',
+             equipes.df)
+

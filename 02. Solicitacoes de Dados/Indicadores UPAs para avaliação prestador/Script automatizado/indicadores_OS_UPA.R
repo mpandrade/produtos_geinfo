@@ -62,7 +62,7 @@ resultado_atd.v2 <- atd.df %>%
             ind_2.8 = round(mean(tempo_atend[cor == 'Verde'], na.rm = T), 2),
             ind_2.9 = round(mean(tempo_atend[cor == 'Azul'], na.rm = T), 2),
             quant_atend_pep = sum(qt_atend_medico[fl_cid_exposicao_hiv == 1]),
-            ind_2.11 = round((1 - (sum(qt_atend_medico[fl_cid_especifico == 1]) / ind_1.1)) * 100, 2)) %>%
+            ind_2.11 = round((1 - (sum(qt_atend_cid_especifico) / ind_1.1)) * 100, 2)) %>%
   rowwise() %>%
   mutate(quant_disp_pep = sum(prep_v2.df$dispensacoes[prep_v2.df$unidade == unidade &
                                                          prep_v2.df$mes_referencia == mes_referencia], na.rm = T),

@@ -1,0 +1,7 @@
+"0","{\begin{tikzpicture}
+\filldraw [color=gray!100] (0,0) rectangle (\paperwidth,0.1);
+\end{tikzpicture}} 
+"
+"1","This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.4) (preloaded format=latex.fmt)
+ restricted \write18 enabled.
+"
